@@ -57,7 +57,7 @@ const VideoHolder = styled.div`
     position: relative;
     width: 100%;
     height: 140px;
-    // margin-top: 24px;
+    margin-top: 24px;
     border-radius: 16px;
     background-color: #ebebeb;
     @media(width>678px){
@@ -128,6 +128,7 @@ const WrapVideoFeatures=styled.div`
       margin-top:44px;
       align-items:stretch;
       justify-content:space-between;
+      height:auto;
     }
 `;
 
