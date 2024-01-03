@@ -3,7 +3,7 @@ import * as maptilersdk from '@maptiler/sdk';
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 import Searchbar from "../components/Searchbar";
 import CurrentLocation from "../components/currentLocation";
-import CongratsPopUp from "../components/congratsPopUp";
+import Congratulation from "../components/Congratulation";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../App.css"
@@ -47,10 +47,12 @@ margin-left:8px;
 const SearchContainers=styled.div`
     margin-left:24px;
     margin-right:24px;
+    
     @media(width>678px){
       width:100%;
       margin-left:156px;
       height:48px;
+      margin-top:-24px!important;
     }
 `
 const FacilityContainer=styled.div`
@@ -94,10 +96,10 @@ const FacilitySearchWrap=styled.div`
 width:100%;
  display:flex;
 flex-direction:column;
- position:absolute;
+position:absolute;
  margin-top:74px;
  justify-content:space-between;
-height:85vh;
+height:85%;
 @media(width>678px){
   flex-direction:row;
   height:auto;
@@ -106,13 +108,14 @@ height:85vh;
 }
 `
 const EntryField=styled.fieldset`
-height:35px;
+// height:35px;
 border-radius:14px;
 margin-left:24px;
 margin-top:24px;
 margin-right:24px;
+// background-color:red;
 @media(width>678px){
-  height:56px;
+  // height:56px;
 }
 `
 const EntryText=styled.input`
@@ -120,7 +123,14 @@ border:none;
 outline:none;
 width:100%;
 background-color:white;
+height:35px;
+
 `
+const BlurBackground = styled.div`
+  backdrop-filter: blur(60px); /* Adjust the blur amount as needed */
+  // background-color:red;
+`;
+
 function AddFacilities() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maptilersdk.Map | null>(null);
@@ -130,6 +140,7 @@ function AddFacilities() {
   const [currenLocation, setCurrentLocation] = useState<boolean>(false);
   const [confirmAddress, setConfirmAddress] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState('');
+
   const [formData, setFormData] = useState({
     facility_nickname: '',
     floor_number: '',
@@ -228,7 +239,7 @@ function AddFacilities() {
     try {
       const json=JSON.stringify(formData);
       console.log(json);
-      const response = await axios.post('https://0432-122-186-163-190.ngrok-free.app/addfacility', json , {
+      const response = await axios.post('https://customer-setup-api.up.railway.app/addfacility', json , {
         headers: {
           'Accept': '*/*',
           'Content-Type': 'application/json',
@@ -246,15 +257,16 @@ function AddFacilities() {
   const navigate=useNavigate();
   return (
     <>
-        <Navbar>
+           <Navbar>
           <Image src="./assets/ArrowLeft.png" onClick={()=>navigate("/")}/>
-          <HeaderText >Add Facility</HeaderText>
+          <HeaderText >Facility address</HeaderText>
         </Navbar>
     <div style={{
       width: "100%",
       height: "100vh",
+      position:"relative"
     }}>
-      <div ref={mapContainer} style={{
+        <div ref={mapContainer} style={{
         position: "absolute",
         width: "100%",
         height: "100vh"
@@ -311,13 +323,15 @@ function AddFacilities() {
                 </>
               )
             }
-            {
-                (confirmAddress&&currenLocation)&&
-                <CongratsPopUp facilityNickName={formData.facility_nickname}/>
-            }
+        
           </FacilityContainer>
-        </FacilitySearchWrap>
-    </div>
+        </FacilitySearchWrap> {
+                (confirmAddress&&currenLocation)&&
+                <Congratulation facilityNickName={formData.facility_nickname} />
+            }
+          </div>   
+
+    
     </>
   );
 }

@@ -50,6 +50,7 @@ const InfoText=styled.div`
         font-size: 20px;
         line-height: 32px; 
         text-align:start;
+        margin-top:48px;
     }
 `;
 
@@ -117,7 +118,6 @@ const WrapFeatures=styled.div`
     @media(width>678px){
         dispaly:flex;
         gap:44px!important;
-        margin-top:20px;
     }
 `;
 
@@ -125,7 +125,7 @@ const WrapVideoFeatures=styled.div`
     @media(width>678px){
       width:100%;
       display:flex;
-      margin-top:44px;
+      margin-top:32px;
       align-items:stretch;
       justify-content:space-between;
       height:auto;

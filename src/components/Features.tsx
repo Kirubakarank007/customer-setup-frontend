@@ -10,7 +10,7 @@ const Card=styled.div`
     background-color:#fff;
     box-shadow: 0px 16px 20px 0px rgba(58, 42, 0, 0.12);
     margin:0px;
-    @media(width>678px){
+    @media(width>768px){
         width:100%;
         height:128px;
         margin-left:24px;
@@ -28,7 +28,7 @@ const Circle=styled.div`
     display:flex;
     justify-content: center;
     align-items: center;
-    @media(width>678px){
+    @media(width>768px){
         width:64px;
         height:64px;
         left: 5%;
@@ -38,7 +38,7 @@ const Circle=styled.div`
 const Image=styled.img`
     height:24px;
     width:24px;
-    @media(width>678px){
+    @media(width>768px){
         height:32px;
         width:32px;
     }
@@ -50,7 +50,7 @@ const TextArrowWrap=styled.div`
     align-items:center;
     justify-content:space-between;
     margin-top:41px;
-    @media(width>678px){
+    @media(width>768px){
         width:90%;
         justify-content:space-between;
     }
@@ -66,7 +66,7 @@ const Text=styled.div`
     font-weight:700!important;
     line-height:22px;
     letter-spacing:0.15px;
-    @media(width>678px){
+    @media(width>768px){
         margin-left:32px;
         margin-top:16px;
         color: var(--fonts-n-900, #0F1532);
@@ -82,7 +82,7 @@ const Arrow=styled.div`
     @media(width>375px){
         margin-top:15px;
     }
-    @media(width>678px){
+    @media(width>768px){
         margin-top:20px;
     }
 `;

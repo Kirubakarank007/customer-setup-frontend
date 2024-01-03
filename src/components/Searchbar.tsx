@@ -12,6 +12,7 @@ const Search=styled.div`
         width:90%;
         height:56px;
         border:20px;
+        // margin-top:24;
     }
 `;
 
@@ -24,12 +25,16 @@ const InnerSearchWrapper=styled.div`
 
 const InnerSearch=styled.input`
     margin-top:9px;
+    outline:none;
     border:none;
     width:100%;
     font-size:14px;
     @media(width>678px){
         margin-top:15px;
         font-size:16px;
+        border-color:white;
+        
+
     }
 `;
 
