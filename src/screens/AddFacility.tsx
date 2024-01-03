@@ -8,7 +8,6 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../App.css"
 import styled from "styled-components";
-
 const Navbar=styled.div`
   height:59px;
   display:flex;
@@ -19,112 +18,151 @@ const Navbar=styled.div`
   width:100%;
   @media(width>678px){
     height:104px;
+    
   }
 `
 const Image=styled.img`
-height:24px;
-width:24px;
-margin-left:24px;
-@media(width>678px){
-  height:32px;
-  width:32px;
+  height:24px;
+  width:24px;
+  margin-left:24px;
+  @media(width>678px){
+    height:32px;
+    width:32px;
+    margin-left:156px;
 }`
 
 const HeaderText=styled.p`
-font-size:20px;
-color: var(--Fonts-N900, #0F1532);
-font-feature-settings: 'clig' off, 'liga' off;
-font-family: Manrope;
-font-size: 20px;
-font-style: normal;
-font-weight: 600;
-line-height: 28px; /* 140% */
-letter-spacing: 0.15px;
-margin-left:8px;
-@media(width>678px){
-  font-size:24px;
+  font-size:20px;
+  color: var(--Fonts-N900, #0F1532);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Manrope;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 28px; /* 140% */
+  letter-spacing: 0.15px;
+  margin-left:8px;
+  @media(width>678px){
+    font-size:24px;
+    margin-left:24px;
 }`
 const SearchContainers=styled.div`
-    margin-left:24px;
-    margin-right:24px;
-    
-    @media(width>678px){
-      width:100%;
-      margin-left:156px;
-      height:48px;
-      margin-top:-24px!important;
+  margin-left:24px;
+  margin-right:24px;
+  @media(width>678px){
+    width:100%;
+    margin-left:156px;
+    height:48px;
+    margin-top:-24px!important;
     }
 `
 const FacilityContainer=styled.div`
   background-color: white;
-    border-radius: 20px 20px 0px 0px;
+  border-radius: 20px 20px 0px 0px;
+  box-shadow: 0px 10px 20px 6px rgba(121, 87, 0, 0.10);
+  @media(width>678px){
+    margin-right:156px;
+    width:45%;
+    height:auto;
+    border-radius: 16px;
+    background: var(--Secondary-White, #FFF);
     box-shadow: 0px 10px 20px 6px rgba(121, 87, 0, 0.10);
-    @media(width>678px){
-      margin-right:156px;
-      width:45%;
-      height:auto;
-      border-radius: 16px;
-background: var(--Secondary-White, #FFF);
-box-shadow: 0px 10px 20px 6px rgba(121, 87, 0, 0.10);
     }
-  
 `
 const ButtonContainer=styled.div`
-margin-left:24px;
-margin-right:24px;
-margin-bottom:24px;
-@media(width>678px){
   margin-left:24px;
-margin-right:24px;
-margin-bottom:24px;
+  margin-right:24px;
+  margin-bottom:24px;
+  @media(width>678px){
+    margin-left:24px;
+    margin-right:24px;
+    margin-bottom:24px;
 }`
 const Button=styled.button
-`width:100%;
-height:56px;
-text-align:center;
-background-color:#0B30B2;
-color:white;
-border-radius:20px;
-font-size:14px;
-@media(width>678px){
+` width:100%;
+  height:56px;
+  text-align:center;
+  background-color:#0B30B2;
+  color:white;
+  border-radius:20px;
+  font-size:14px;
+  border:none;
+  font-family:Manrope;
+  @media(width>678px){
     width:100%;
     font-size:16px;
+    margin-top:40px;
+    font-weight:700;
+    letter-spacing:0.15px;
+    line-height:24px;
 }
 
 `
 const FacilitySearchWrap=styled.div`
-width:100%;
- display:flex;
-flex-direction:column;
-position:absolute;
- margin-top:74px;
- justify-content:space-between;
-height:85%;
-@media(width>678px){
-  flex-direction:row;
-  height:auto;
-  margin-top:130px;
-
+  width:100%;
+  display:flex;
+  flex-direction:column;
+  position:absolute;
+  margin-top:74px;
+  justify-content:space-between;
+  height:85%;
+  @media(width>678px){
+    flex-direction:row;
+    height:auto;
+    margin-top:130px;
 }
 `
 const EntryField=styled.fieldset`
-// height:35px;
-border-radius:14px;
-margin-left:24px;
-margin-top:24px;
-margin-right:24px;
-// background-color:red;
-@media(width>678px){
+  border-radius:14px;
+  margin-left:24px;
+  margin-top:24px;
+  margin-right:24px;
+  border:1px solid #D9D4C5;
+  @media(width>678px){  
   // height:56px;
 }
 `
+const Legend =styled.legend`
+  color: var(--Fonts-N800, #292F4D);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Manrope;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 157.143% */
+  letter-spacing: 0.25px;
+  @media(width>678px){
+    color: var(--Fonts-N800, #292F4D);
+    font-family: Manrope;
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.4px;
+  }`
 const EntryText=styled.input`
-border:none;
-outline:none;
-width:100%;
-background-color:white;
-height:35px;
+  border:none;
+  outline:none;
+  width:100%;
+  background-color:white;
+  height:35px;
+  color: var(--Fonts-N900, #0F1532);
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Manrope;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px; /* 157.143% */
+  letter-spacing: 0.25px;
+  @media(width>678px){
+    font-size:16px;
+    letter-spacing: 0.15px;
+    
+  }
 
+`
+const Select=styled.select`
+width:100%;
+border:none;
+height:35px;
 `
 const BlurBackground = styled.div`
   backdrop-filter: blur(60px); /* Adjust the blur amount as needed */
@@ -368,13 +406,16 @@ function AddFacilities() {
     }
     console.log(formData);
   };
+
+  
   const navigate=useNavigate();
   return (
+    
     <>
-           <Navbar>
-          <Image src="./assets/ArrowLeft.png" onClick={()=>navigate("/")}/>
-          <HeaderText >Facility address</HeaderText>
-        </Navbar>
+              <Navbar>
+                <Image src="./assets/ArrowLeft.png" onClick={()=>navigate("/")}/>
+                <HeaderText >Facility address</HeaderText>
+              </Navbar>
     <div style={{
       width: "100%",
       height: "100vh",
@@ -420,29 +461,31 @@ function AddFacilities() {
                 <>
                   <form action="/addfacility" method="POST" onSubmit={handleSubmit} className="form">
                     <EntryField>
-                      <legend>Facility nickname*</legend>
+                      <Legend>Facility nickname*</Legend>
                       <EntryText id="facility_nickname" autoComplete="off" name="facility_nickname" value={formData.facility_nickname} onChange={handleInputChange} required type="text"/>
                     </EntryField>
                     <EntryField >
-                      <legend>Unit number/floor</legend>
+                      <Legend>Unit number/floor</Legend>
                       <EntryText id="floor_number" autoComplete="off" name="floor_number" value={formData.floor_number} onChange={handleInputChange} type="text"/>
                     </EntryField>
-                    <EntryField >
-                      <legend>Select an Option</legend>
-                      <EntryText 
+                    <EntryField style={{marginBottom:164}}>
+                      <Legend>Select an Option</Legend>
+                      {/* <EntryText 
                         id="service"
                         name="service"
                         value={selectedOption}
                         onChange={handleSelectChange}
                         list="optionsList"
-                      />
-                      <datalist id="optionsList">
-                        <option value="Gym" />
-                        <option value="Park" />
-                        <option value="School" />
-                        {/* Add more options as needed */}
-                      </datalist>
+                      /> */}
+                      <Select >
+                        <option value="Gym">Gym</option>
+                        <option value="School">School</option>
+                        <option value="Park">Park</option>
+                        <option value='custom'>Others</option>
+                      </Select>
+                   
                     </EntryField>
+
                     <CurrentLocation clickedLocation={clickedLocation}/>
                     <ButtonContainer>
                     <Button onClick={()=>{setConfirmAddress(true)}}>
