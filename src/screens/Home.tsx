@@ -188,7 +188,10 @@ function Home() {
                 ):(
                 <>
                     <WrapSearchNotification >
-                        <Searchbar/>
+                        <div style={{width:"90%"}}>
+                            <Searchbar/>
+                        </div>
+                        
                         <Notification >
                             <div style={{marginTop:'17px',marginLeft:'15px'}}>
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">

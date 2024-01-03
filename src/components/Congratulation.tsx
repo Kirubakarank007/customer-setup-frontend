@@ -237,7 +237,7 @@ function CongratsPopUp(props:{facilityNickName:string}){
       
     const fetchData=async()=>{
       try{
-        const response=await axios.get("https://e14b-122-186-163-190.ngrok-free.app/addfacility", {
+        const response=await axios.get("https://customer-setup-api.up.railway.app/addfacility", {
           headers: {
             'Accept': '*/*'
           },

@@ -131,6 +131,51 @@ const BlurBackground = styled.div`
   // background-color:red;
 `;
 
+const Search=styled.div`
+    width: 100%;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: var(--secondary-white, #FFF);
+    box-shadow: 0px 4px 16px 0px rgba(84, 75, 42, 0.20);
+    margin-top:24px;
+    @media(width>678px){
+        width:100%;
+        height:56px;
+        border:20px;
+        // margin-top:24;
+    }
+`;
+
+const InnerSearchWrapper=styled.div`
+    margin-left:16px;
+    margin-right:16px;
+    display:flex;
+    justify-content:space-between;
+`;
+
+const InnerSearch=styled.input`
+    margin-top:9px;
+    outline:none;
+    border:none;
+    width:100%;
+    font-size:14px;
+    @media(width>678px){
+        margin-top:15px;
+        font-size:16px;
+        border-color:white;
+        
+
+    }
+`;
+
+const ImageSearch=styled.div`
+    margin-top:12px;
+    @media(width>678px){
+        margin-top:15px;
+    }
+`;
+
 function AddFacilities() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maptilersdk.Map | null>(null);
@@ -151,6 +196,57 @@ function AddFacilities() {
   }); 
 
   const [customValue, setCustomValue] = useState('');
+  const [serachQuery, setSearchQuery] = React.useState("");
+  const [searchCordinates, setSearchCordinates] = React.useState<{lng:number, lat:number}>({lng: 0, lat: 0});
+
+    const handleSearchInputChange = (e:any) => {
+        const { value } = e.target;
+        setSearchQuery(value)
+      };
+
+      const handleSearchSubmit = async (e:any) => {
+        e.preventDefault();
+        // Now you have the form data in the formData state variable
+        console.log("Search Submit Reached");
+        try {
+        
+          const response = await axios.get(`https://api.maptiler.com/geocoding/${serachQuery}.json?key=DIALvL1pmYZdL29IO9w0` , {
+            headers: {
+              'Accept': '*/*',
+            },
+          })
+          if (!response.data) {
+            throw new Error('Network response was not ok');
+          }
+          console.log('Success:', response.data);
+          const coordinates = response.data.features[0].geometry.coordinates;
+    
+    // Center the map and add a marker at the searched location
+    map.current!.flyTo({
+      center: coordinates,
+      essential: true,
+    });
+
+    // Check if a marker already exists, and if not, create a new one
+    if (!marker) {
+      marker = new maptilersdk.Marker({ color: "#FFD058", draggable: true })
+        .setLngLat(coordinates)
+        .addTo(map.current!);
+    } else {
+      marker.setLngLat(coordinates);
+    }
+
+    // Set the state for the clickedLocation
+    setClickedLocation(response.data.features[0].place_name);
+
+    // Set the state for searchCordinates
+    setSearchCordinates({ lng: coordinates[0], lat: coordinates[1] });
+          // setSearchCordinates(response.data.features[0].geometry.coordinates);
+          // console.log(response.data.features[0].geometry.coordinates);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      };
 
   maptilersdk.config.apiKey = 'DIALvL1pmYZdL29IO9w0';
 
@@ -168,19 +264,26 @@ function AddFacilities() {
       console.log(result);
       const address = result.features[0]?.place_name || "Address not found";
       setClickedLocation(address);
-      
-      if (marker) {
-        marker.setLngLat([lng, lat]);
-      } else {
-        marker = new maptilersdk.Marker({ color: "#FFD058", draggable: true })
-          .setLngLat([lng, lat])
-          .addTo(map.current!);
+      if(!searchCordinates){
+        if (marker) {
+          marker.setLngLat([lng, lat]);
+        } else {
+          marker = new maptilersdk.Marker({ color: "#FFD058", draggable: true })
+            .setLngLat([lng, lat])
+            .addTo(map.current!);
+  
+          
+        }
+  
+        map.current!.flyTo({
+          center: [lng, lat],
+          essential: true,
+        });
       }
-
-      map.current!.flyTo({
-        center: [lng, lat],
-        essential: true,
-      });
+      else{
+        marker = null
+      }
+      
     }
   }
 
@@ -199,10 +302,20 @@ function AddFacilities() {
             
             map.current = new maptilersdk.Map(options);
             new maptilersdk.Marker({ color: "#FF0000" })
-            .setLngLat([position.coords.longitude, position.coords.latitude])
-            .addTo(map.current!);
+              .setLngLat([position.coords.longitude, position.coords.latitude])
+              .addTo(map.current!);
+            
 
             reverseGeocoding(position.coords.longitude, position.coords.latitude);
+            // if(searchCordinates){
+            //   const coordinates = searchCordinates;
+            //   reverseGeocoding(coordinates.lng, coordinates.lat);
+            //   // map.current!.flyTo({
+            //   //   center: [coordinates.lng, coordinates.lat],
+            //   //   essential: true,
+
+            //   // })
+            // }
              // Add a click event listener to the map
             map.current!.on("click", (e) => {
                 const coordinates = e.lngLat;
@@ -210,6 +323,7 @@ function AddFacilities() {
             });
         });
     }
+    
   }, []);
 
   const handleSelectChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
@@ -273,7 +387,23 @@ function AddFacilities() {
       }} />
         <FacilitySearchWrap>
           <SearchContainers>
-                <Searchbar/>
+            <Search>
+                <InnerSearchWrapper >
+                    <InnerSearch type='text' placeholder='Search' value={serachQuery} onChange={handleSearchInputChange}/>
+                    <ImageSearch onClick={handleSearchSubmit}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                            <g clip-path="url(#clip0_7166_5341)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12ZM18.0493 19.9635C16.3696 21.2414 14.2734 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 14.5288 21.0614 16.8383 19.5135 18.5993L22.2071 21.2929C22.5976 21.6834 22.5976 22.3166 22.2071 22.7071C21.8166 23.0976 21.1834 23.0976 20.7929 22.7071L18.0493 19.9635Z" fill="black"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_7166_5341">
+                                    <rect width="24" height="24" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                    </ImageSearch>
+                </InnerSearchWrapper>
+            </Search>
           </SearchContainers>
           <FacilityContainer>
             {
@@ -291,11 +421,11 @@ function AddFacilities() {
                   <form action="/addfacility" method="POST" onSubmit={handleSubmit} className="form">
                     <EntryField>
                       <legend>Facility nickname*</legend>
-                      <EntryText id="facility_nickname" name="facility_nickname" value={formData.facility_nickname} onChange={handleInputChange} required type="text"/>
+                      <EntryText id="facility_nickname" autoComplete="off" name="facility_nickname" value={formData.facility_nickname} onChange={handleInputChange} required type="text"/>
                     </EntryField>
                     <EntryField >
                       <legend>Unit number/floor</legend>
-                      <EntryText id="floor_number" name="floor_number" value={formData.floor_number} onChange={handleInputChange} type="text"/>
+                      <EntryText id="floor_number" autoComplete="off" name="floor_number" value={formData.floor_number} onChange={handleInputChange} type="text"/>
                     </EntryField>
                     <EntryField >
                       <legend>Select an Option</legend>
