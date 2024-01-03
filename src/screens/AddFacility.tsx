@@ -220,7 +220,8 @@ const FieldSet = styled.fieldset`
   margin-left:24px;
   margin-top:24px;
   margin-right:24px;
-  // width: 100%;
+  margin-bottom:164px;
+  position:relative;
   border: 1px solid #D9D4C5;
   height:56px;
   display:flex;
@@ -281,12 +282,15 @@ const ImageDropSearch = styled.div`
 `;
 
 const OptionItem = styled.div`
+display: flex;
+align-items: center;
   cursor: pointer;
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 16px;
   padding-right: 24px;
   color: #292F4D; // Default text color
+  height: 56px;
   &:hover {
     background-color: #FFFAE8; // Change the background color on hover
   }
@@ -314,12 +318,13 @@ scrollbar-color: #3F4756 #EDEDED;
 }
 
 overflow-y: scroll;
-height: 235px;  /* Set the height as needed */
+height: 40%;  /* Set the height as needed */
 border-radius: 20px;  /* Add your border-radius here */
 background-color: #fff;  /* Set the background color as needed */
 // right: 24px;
 // left: 24px;
-width: 88%;
+top:44.3%;
+width: 89%;
 margin-left: 24px;
 margin-right: 24px;
 position: absolute;
@@ -336,6 +341,9 @@ const Warning = styled.div`
     align-items: center;
     background-color: #FFF4E5;
     border-radius: 20px;
+    margin-top:8px;
+    margin-right: 8px;
+    margin-left: 8px;
 `;
 
 const WarnText = styled.p`
@@ -348,7 +356,7 @@ const WarnText = styled.p`
     line-height: 24px; /* 150% */
     letter-spacing: 0.15px;
 `;
-const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];
+const options = ["Gym", "Hotel", "Apartment", "Medical office", "Chiropractor clinic"];
 function AddFacilities() {
   const mapContainer = useRef<HTMLDivElement | null>(null);
   const map = useRef<maptilersdk.Map | null>(null);
@@ -386,7 +394,15 @@ function AddFacilities() {
     }
   
     const handleDropSearchInputChange = (e:any) => {
+      const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+    
+    formData.location = clickedLocation;
       setSearchText(e.target.value);
+      setCustomValue(e.target.value);
       setShowWarning(true);
       setSelectedOption(""); // Clear the selected option when typing in the input
     };
@@ -397,7 +413,9 @@ function AddFacilities() {
     };
   
     const handleCancel = () => {
+      setShowWarning(false);
       setSelectedOption("");
+      setShowDropdown(true);
       setSearchText("");
     };
   
@@ -408,6 +426,7 @@ function AddFacilities() {
     const handleSearchInputChange = (e:any) => {
         const { value } = e.target;
         setSearchQuery(value)
+        
       };
 
       const handleSearchSubmit = async (e:any) => {
@@ -534,9 +553,27 @@ function AddFacilities() {
 
   const handleSelectChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     // Use the value property of the target to set the state
+
     const selectedOptionValue = event.target.value;
+    if(selectedOptionValue.length===0){
+      setShowWarning(false);
+      setSelectedOption("");
+      setShowDropdown(true);
+      setSearchText("");
+    }
+
+    else{
+    setShowWarning(true);
+
+      setSearchText(selectedOption);
+    console.log(event.target.value);
     setCustomValue(selectedOptionValue);
     setSelectedOption(selectedOptionValue);
+    }
+
+
+    
+    
 
   };
 
@@ -657,9 +694,12 @@ function AddFacilities() {
               type="text"
               placeholder="Search"
               onBlur={() => setIsFocused(true)}
-              value={selectedOption || searchText}
-              onChange={handleDropSearchInputChange}
+              value={selectedOption}
+              onChange={handleSelectChange}
               onFocus={toggleDropdown}
+              id="service"
+              name="service"
+              autoComplete="off"
             />
             
             
@@ -671,9 +711,9 @@ function AddFacilities() {
                     src={selectedOption ? "./assets/Cancel.svg" : "./assets/Dropup.png"}
                     alt={selectedOption ? "Cancel" : "Arrow"}
                     onClick={selectedOption ? handleCancel : toggleDropup}
-                    style={{ cursor: selectedOption ? "pointer" : "default", width: 24, height: 24, marginTop:5, marginLeft: 36, marginRight:12 }}
+                    style={{ cursor: selectedOption ? "pointer" : "default", width: 24, height: 24, marginTop:5, marginLeft: 36, marginRight:12, position:"absolute", right:"8px"  }}
                 />
-                ):(<img src="./assets/Dropdown.png" alt="Down" onClick={toggleDropdown} style={{ cursor: selectedOption ? "pointer" : "default", width: 24, height: 24, marginTop:5, marginLeft:36, marginRight:12 }}/>)
+                ):(<img src="./assets/Dropdown.png" alt="Down" onClick={toggleDropdown} style={{ cursor: selectedOption ? "pointer" : "default", width: 24, height: 24, marginTop:5, marginLeft:36, marginRight:12, position:"absolute", right:"8px" }}/>)
             } 
           
         </>
@@ -695,7 +735,8 @@ function AddFacilities() {
             <div>
             {filteredOptions.map((option) => (
                 <>
-                    <hr style={{border:"1px solid #C8CDDF"}}></hr>
+                
+                    
                     <OptionItem
                     key={option}
                     onClick={() => handleSelectOption(option)}
@@ -703,13 +744,17 @@ function AddFacilities() {
                     
                     <p style={{margin:0, color:"#292F4D"}}>{option}</p>
                     </OptionItem>
+                    <hr style={{border:"1px solid #C8CDDF"}}></hr>
                 </>
 
             ))}
             {filteredOptions.length === 0 && (
-                <OptionItem onClick={() => {handleSelectOption("Other");setShowWarning(false);}} style={{ cursor: "pointer" }}>
+                <>
+                <hr style={{border:"1px solid #C8CDDF"}}></hr>
+                  <OptionItem onClick={() => {handleSelectOption("Other");setShowWarning(false);}} style={{ cursor: "pointer",marginTop:8}}>
                     Other
-                </OptionItem>
+                  </OptionItem>
+                </>
 
             )}
             </div>
