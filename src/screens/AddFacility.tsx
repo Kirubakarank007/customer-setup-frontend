@@ -323,7 +323,7 @@ border-radius: 20px;  /* Add your border-radius here */
 background-color: #fff;  /* Set the background color as needed */
 // right: 24px;
 // left: 24px;
-top:50%;
+top:51%;
 width: 89%;
 margin-left: 24px;
 margin-right: 24px;
