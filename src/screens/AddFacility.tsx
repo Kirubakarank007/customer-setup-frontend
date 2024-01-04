@@ -220,7 +220,7 @@ const FieldSet = styled.fieldset`
   margin-left:24px;
   margin-top:24px;
   margin-right:24px;
-  margin-bottom:164px;
+  margin-bottom:20%;
   position:relative;
   border: 1px solid #D9D4C5;
   height:56px;
@@ -318,12 +318,12 @@ scrollbar-color: #3F4756 #EDEDED;
 }
 
 overflow-y: scroll;
-height: 40%;  /* Set the height as needed */
+height: 45%;  /* Set the height as needed */
 border-radius: 20px;  /* Add your border-radius here */
 background-color: #fff;  /* Set the background color as needed */
 // right: 24px;
 // left: 24px;
-top:44.3%;
+top:50%;
 width: 89%;
 margin-left: 24px;
 margin-right: 24px;
