@@ -159,15 +159,6 @@ const EntryText=styled.input`
   }
 
 `
-const Select=styled.select`
-width:100%;
-border:none;
-height:35px;
-`
-const BlurBackground = styled.div`
-  backdrop-filter: blur(60px); /* Adjust the blur amount as needed */
-  // background-color:red;
-`;
 
 const Search=styled.div`
     width: 100%;
@@ -228,24 +219,6 @@ const FieldSet = styled.fieldset`
   align-items:center;
   // background-color:black;
 `;
-
-// const Legend = styled.legend`
-//   color: var(--Fonts-N800, #292F4D);
-//   font-feature-settings: 'clig' off, 'liga' off;
-//   font-family: Manrope;
-//   font-size: 12px;
-//   font-style: normal;
-//   font-weight: 400;
-//   line-height: 22px;
-//   letter-spacing: 0.25px;
-//   @media (width > 678px) {
-//     color: var(--Fonts-N800, #292F4D);
-//     font-family: Manrope;
-//     font-size: 14px;
-//     line-height: 20px;
-//     letter-spacing: 0.4px;
-//   }
-// `;
 
 const InputArea = styled.input`
   border: none;
@@ -323,7 +296,7 @@ border-radius: 20px;  /* Add your border-radius here */
 background-color: #fff;  /* Set the background color as needed */
 // right: 24px;
 // left: 24px;
-top:51%;
+top:50%;
 width: 89%;
 margin-left: 24px;
 margin-right: 24px;

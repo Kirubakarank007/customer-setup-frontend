@@ -25,9 +25,10 @@ const InnerBox=styled.div`
   height: 390px;
   flex-shrink: 0;
   background-color:#FFEDBF;
-  border-radius: 24px;
+  border-radius: 24px 24px 0 0;
   @media(width<678px){
     height:324px;
+  border-radius: 24px;
   }
 `
 const Cancel=styled.div`
